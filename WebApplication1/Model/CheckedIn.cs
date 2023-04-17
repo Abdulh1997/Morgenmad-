@@ -2,7 +2,7 @@
 {
     public class CheckedIn
     {
-        public long CheckedInID { get; set; }
+        public long CheckedInId { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -11,8 +11,5 @@
         public int NumberOfChildren { get; set; }
 
         public int RoomNumber { get; set; }
-
-
-
     }
 }

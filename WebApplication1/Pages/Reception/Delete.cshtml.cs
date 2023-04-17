@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
+using WebApplication1.Hubs;
 using WebApplication1.Model;
 
-namespace WebApplication1.Pages.Recepetion
+namespace WebApplication1.Pages.Reception
 {
     public class DeleteModel : PageModel
     {
-        private readonly WebApplication1.Data.ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
+        private readonly IHubContext<NotificationHub, INotificationHub> _hubContext;
 
-        public DeleteModel(WebApplication1.Data.ApplicationDbContext context)
+        public DeleteModel(Data.ApplicationDbContext context, IHubContext<NotificationHub, INotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [BindProperty]
@@ -24,7 +23,7 @@ namespace WebApplication1.Pages.Recepetion
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
-            if (id == null || _context.Reservations == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -44,7 +43,7 @@ namespace WebApplication1.Pages.Recepetion
 
         public async Task<IActionResult> OnPostAsync(long? id)
         {
-            if (id == null || _context.Reservations == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -55,6 +54,7 @@ namespace WebApplication1.Pages.Recepetion
                 Reservations = reservations;
                 _context.Reservations.Remove(Reservations);
                 await _context.SaveChangesAsync();
+                await _hubContext.Clients.All.Update();
             }
 
             return RedirectToPage("./Index");

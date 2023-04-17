@@ -30,7 +30,7 @@ namespace WebApplication1.Pages.Restaurant
                 return NotFound();
             }
 
-            var checkedin =  await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInID == id);
+            var checkedin =  await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInId == id);
             if (checkedin == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace WebApplication1.Pages.Restaurant
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CheckedInExists(CheckedIn.CheckedInID))
+                if (!CheckedInExists(CheckedIn.CheckedInId))
                 {
                     return NotFound();
                 }
@@ -71,7 +71,7 @@ namespace WebApplication1.Pages.Restaurant
 
         private bool CheckedInExists(long id)
         {
-          return (_context.CheckedIn?.Any(e => e.CheckedInID == id)).GetValueOrDefault();
+          return (_context.CheckedIn?.Any(e => e.CheckedInId == id)).GetValueOrDefault();
         }
     }
 }

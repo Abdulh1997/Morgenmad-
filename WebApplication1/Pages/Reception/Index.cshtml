@@ -1,15 +1,15 @@
 ﻿@page
-@model WebApplication1.Pages.Recepetion.IndexModel
+@model WebApplication1.Pages.Reception.IndexModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Here you can se a list of those who ate breakfast today</h1>
-<a asp-page="./ListWithInfo" asp-route-id="ReservationsID">Show antal checked people today</a>
+<h1>Here you can see a list of those who ate breakfast today</h1>
+<a asp-page="./ListWithInfo" asp-route-id="ReservationsID">Show list of guests who ate breakfast today</a>
 
 
-<h1> Provide the number of guests </h1>
+<h1> Create new breakfast orders for guests </h1>
 
 <p>
     <a asp-page="Create">Create New</a>
