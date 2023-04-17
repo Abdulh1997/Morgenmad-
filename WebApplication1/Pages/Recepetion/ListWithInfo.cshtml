@@ -1,0 +1,51 @@
+﻿@page
+@model WebApplication1.Pages.Recepetion.ListWithInfoModel
+
+
+@{
+}
+
+<h1>Get people info here</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.info[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.info[0].NumberOfAdults)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.info[0].NumberOfChildren)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.info[0].RoomNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model.info.Where(i => i.Date.Date == DateTime.Today))
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfAdults)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfChildren)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomNumber)
+            </td>
+            <td>
+              
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
