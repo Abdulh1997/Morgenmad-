@@ -8,7 +8,7 @@
 </head>
 <body>
 <div>
-    <h1>Information About Guests</h1> <br/>
+    <h1>Kitchen Details</h1> <br/>
     <form method="post">
         <label> Date </label>
         <input asp-for="Input.Date" type="date" />
@@ -20,14 +20,14 @@
 </div>
 
 <div>
-    <h3>Total Adults: @ViewData["Adult"]</h3><br/>
-    <h3>Total Children: @ViewData["Children"]</h3><br/>
-    <h3>Total Reservation @ViewData["Total"]</h3><br/>
+    <h3>Expected Adults: @ViewData["Adult"]</h3><br/>
+    <h3>Expected Children: @ViewData["Children"]</h3><br/>
+    <h3>Expected Adults and Children: @ViewData["Total"]</h3><br/>
     <h3>Checked In Adults: @ViewData["CheckedInAdult"]</h3><br/>
     <h3>Checked In Children @ViewData["CheckedInChildren"]</h3><br/>
     <h3>Total NotCheckedIn: @ViewData["NotCheckedIn"]</h3>
 </div>
     <script src="~/js/microsoft/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
-<script src="~/js/kitchen.js" asp-append-version="true"></script>
+    <script src="~/js/kitchen.js" asp-append-version="true"></script>
 </body>
 </html>

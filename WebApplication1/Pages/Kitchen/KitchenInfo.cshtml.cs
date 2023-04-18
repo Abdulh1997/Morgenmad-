@@ -44,13 +44,20 @@ namespace WebApplication1.Pages.Kitchen
                 checkedInChildren += model.NumberOfChildren;
             }
 
+            var totalNotCheckedIn = (totalAdult + totalChildren) - (checkedInAdult + checkedInChildren);
+
+            if (totalNotCheckedIn <= 0)
+            {
+                totalNotCheckedIn = 0;
+            }
+
             ViewData["Adult"] = $"{totalAdult}";
             ViewData["Children"] = $"{totalChildren}";
             ViewData["Total"] = $"{totalAdult + totalChildren}";
             ViewData["CheckedInAdult"] = $"{checkedInAdult}";
             ViewData["CheckedInChildren"] = $"{checkedInChildren}";
             ViewData["CheckedInTotal"] = $"{checkedInAdult + checkedInChildren}";
-            ViewData["NotCheckedIn"] = $"{(totalAdult + totalChildren) - (checkedInAdult + checkedInChildren)}";
+            ViewData["NotCheckedIn"] = $"{totalNotCheckedIn}";
         }
     }
 }
