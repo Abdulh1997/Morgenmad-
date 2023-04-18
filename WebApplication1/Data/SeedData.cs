@@ -12,7 +12,7 @@ namespace WebApplication1.Data
             const string receptionistPassword = "Secret7$";
             const string waiterEmail = "Waiter@localhost";
             const string waiterPassword = "Secret7$";
-            const string customerEmail = "Customer@localhost";
+            const string customerEmail = "Employee@localhost";
             const string customerPassword = "Secret7$";
 
             // Overordnet tjek af userManager

@@ -16,16 +16,16 @@ namespace WebApplication1.Pages.Reception
             _context = context;
         }
 
-        public IList<Reservations> Reservations { get;set; } = default!;
+        public IList<Reservations> Reservations { get; set; } = default!;
         public DateTime Date { get; set; } = DateTime.Today;
 
 
         public async Task OnGetAsync()
         {
-           if (_context.Reservations != null)
-           {
-                    Reservations = await _context.Reservations.ToListAsync();
-           }
+            if (_context.Reservations != null)
+            {
+                Reservations = await _context.Reservations.ToListAsync();
+            }
         }
     }
 }
