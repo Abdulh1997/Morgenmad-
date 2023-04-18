@@ -11,23 +11,23 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.info[0].Date)
+                @Html.DisplayNameFor(model => model.Info[0].Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.info[0].NumberOfAdults)
+                @Html.DisplayNameFor(model => model.Info[0].NumberOfAdults)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.info[0].NumberOfChildren)
+                @Html.DisplayNameFor(model => model.Info[0].NumberOfChildren)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.info[0].RoomNumber)
+                @Html.DisplayNameFor(model => model.Info[0].RoomNumber)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 
-        @foreach (var item in Model.info.Where(i => i.Date.Date == DateTime.Today))
+        @foreach (var item in Model.Info.Where(i => i.Date.Date == DateTime.Today))
         {
         <tr>
             <td>

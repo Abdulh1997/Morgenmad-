@@ -12,7 +12,6 @@ namespace WebApplication1.Pages.Restaurant
         private readonly ApplicationDbContext _context;
         private readonly IHubContext<NotificationHub, INotificationHub> _hubContext;
 
-
         public CreateModel(ApplicationDbContext context, IHubContext<NotificationHub, INotificationHub> hubContext)
         {
             _context = context;

@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
 using WebApplication1.Model;
 
 namespace WebApplication1.Pages.Restaurant
 {
     public class DetailsModel : PageModel
     {
-        private readonly WebApplication1.Data.ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
 
-        public DetailsModel(WebApplication1.Data.ApplicationDbContext context)
+        public DetailsModel(Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,19 +18,20 @@ namespace WebApplication1.Pages.Restaurant
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
-            if (id == null || _context.CheckedIn == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var checkedin = await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInId == id);
-            if (checkedin == null)
+            var checkedIn = await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInId == id);
+
+            if (checkedIn == null)
             {
                 return NotFound();
             }
             else 
             {
-                CheckedIn = checkedin;
+                CheckedIn = checkedIn;
             }
             return Page();
         }

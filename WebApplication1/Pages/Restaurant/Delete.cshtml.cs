@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
+using WebApplication1.Hubs;
 using WebApplication1.Model;
 
 namespace WebApplication1.Pages.Restaurant
 {
     public class DeleteModel : PageModel
     {
-        private readonly WebApplication1.Data.ApplicationDbContext _context;
-
-        public DeleteModel(WebApplication1.Data.ApplicationDbContext context)
+        private readonly Data.ApplicationDbContext _context;
+        private readonly IHubContext<NotificationHub, INotificationHub> _hubContext;
+        
+        public DeleteModel(Data.ApplicationDbContext context, IHubContext<NotificationHub, INotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [BindProperty]
@@ -24,37 +23,38 @@ namespace WebApplication1.Pages.Restaurant
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
-            if (id == null || _context.CheckedIn == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var checkedin = await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInId == id);
+            var checkedIn = await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInId == id);
 
-            if (checkedin == null)
+            if (checkedIn == null)
             {
                 return NotFound();
             }
             else 
             {
-                CheckedIn = checkedin;
+                CheckedIn = checkedIn;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(long? id)
         {
-            if (id == null || _context.CheckedIn == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var checkedin = await _context.CheckedIn.FindAsync(id);
+            var checkedIn = await _context.CheckedIn.FindAsync(id);
 
-            if (checkedin != null)
+            if (checkedIn != null)
             {
-                CheckedIn = checkedin;
+                CheckedIn = checkedIn;
                 _context.CheckedIn.Remove(CheckedIn);
                 await _context.SaveChangesAsync();
+                await _hubContext.Clients.All.Update();
             }
 
             return RedirectToPage("./Index");

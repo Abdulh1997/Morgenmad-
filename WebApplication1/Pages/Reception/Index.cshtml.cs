@@ -5,13 +5,12 @@ using WebApplication1.Model;
 
 namespace WebApplication1.Pages.Reception
 {
-
     [Authorize("IsReceptionist")]
     public class IndexModel : PageModel
     {
-        private readonly WebApplication1.Data.ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
 
-        public IndexModel(WebApplication1.Data.ApplicationDbContext context)
+        public IndexModel(Data.ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,10 +21,7 @@ namespace WebApplication1.Pages.Reception
 
         public async Task OnGetAsync()
         {
-            if (_context.Reservations != null)
-            {
-                Reservations = await _context.Reservations.ToListAsync();
-            }
+            Reservations = await _context.Reservations.ToListAsync();
         }
     }
 }

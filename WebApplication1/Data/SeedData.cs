@@ -12,8 +12,8 @@ namespace WebApplication1.Data
             const string receptionistPassword = "Secret7$";
             const string waiterEmail = "Waiter@localhost";
             const string waiterPassword = "Secret7$";
-            const string customerEmail = "Employee@localhost";
-            const string customerPassword = "Secret7$";
+            const string employeeEmail = "Employee@localhost";
+            const string employeePassword = "Secret7$";
 
             // Overordnet tjek af userManager
             if (userManager == null)
@@ -45,19 +45,22 @@ namespace WebApplication1.Data
             // Waiter seed
             if (userManager.FindByNameAsync(waiterEmail).Result == null)
             {
-                var user = new IdentityUser();
-                user.UserName = waiterEmail;
-                user.Email = waiterEmail;
-                user.EmailConfirmed = true;
-                IdentityResult result = userManager.CreateAsync(user, waiterPassword).Result;
+                var user = new IdentityUser
+                {
+                    UserName = waiterEmail,
+                    Email = waiterEmail,
+                    EmailConfirmed = true
+                };
+
+                var result = userManager.CreateAsync(user, waiterPassword).Result;
 
                 if (result.Succeeded)
                 {
                     var waiterUser = userManager.FindByNameAsync(waiterEmail).Result;
                     var claims = new List<Claim>()
                     {
-                        new Claim("IsWaiter", "true"),
-                        new Claim("IsWorker", "true"),
+                        new("IsWaiter", "true"),
+                        new("IsWorker", "true"),
                     };
 
                     var claimAdded = userManager.AddClaimsAsync(waiterUser, claims).Result;
@@ -65,15 +68,15 @@ namespace WebApplication1.Data
             }
 
             // Customer seed
-            if (userManager.FindByNameAsync(customerEmail).Result == null)
+            if (userManager.FindByNameAsync(employeeEmail).Result == null)
             {
                 var user = new IdentityUser
                 {
-                    UserName = customerEmail,
-                    Email = customerEmail,
+                    UserName = employeeEmail,
+                    Email = employeeEmail,
                     EmailConfirmed = true
                 };
-                var result = userManager.CreateAsync(user, customerPassword).Result;
+                var result = userManager.CreateAsync(user, employeePassword).Result;
             }
         }
     }
