@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using WebApplication1.Model;
 
 namespace WebApplication1.Pages.Kitchen
 {
@@ -25,28 +24,25 @@ namespace WebApplication1.Pages.Kitchen
 
         public void OnGet()
         {
-
             var list = _context.Reservations.Where(r => r.Date.Date == Input.Date.Date).ToList();
             var list2 = _context.CheckedIn.Where(r => r.Date.Date == Input.Date.Date).ToList();
 
-            int totalAdult = 0;
-            int totalChildren = 0;
-            int checkedInAdult = 0;
-            int checkedInChildren = 0;
+            var totalAdult = 0;
+            var totalChildren = 0;
+            var checkedInAdult = 0;
+            var checkedInChildren = 0;
 
-            foreach (Reservations model in list)
+            foreach (var model in list)
             {
                 totalAdult += model.NumberOfAdults;
                 totalChildren += model.NumberOfChildren;
             }
 
-            foreach (CheckedIn model in list2)
+            foreach (var model in list2)
             {
                 checkedInAdult += model.NumberOfAdults;
                 checkedInChildren += model.NumberOfChildren;
             }
-
-
 
             ViewData["Adult"] = $"{totalAdult}";
             ViewData["Children"] = $"{totalChildren}";

@@ -29,7 +29,7 @@ namespace WebApplication1.Pages.Restaurant
                 return NotFound();
             }
 
-            var checkedin = await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInID == id);
+            var checkedin = await _context.CheckedIn.FirstOrDefaultAsync(m => m.CheckedInId == id);
 
             if (checkedin == null)
             {

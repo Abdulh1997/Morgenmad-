@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using WebApplication1.Data;
+using Microsoft.AspNetCore.SignalR;
+using WebApplication1.Hubs;
 using WebApplication1.Model;
 
-namespace WebApplication1.Pages.Recepetion
+namespace WebApplication1.Pages.Reception
 {
     public class CreateModel : PageModel
     {
-        private readonly WebApplication1.Data.ApplicationDbContext _context;
+        private readonly Data.ApplicationDbContext _context;
+        private readonly IHubContext<NotificationHub, INotificationHub> _hubContext;
 
-        public CreateModel(WebApplication1.Data.ApplicationDbContext context)
+        public CreateModel(Data.ApplicationDbContext context, IHubContext<NotificationHub, INotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         public IActionResult OnGet()
@@ -26,18 +24,18 @@ namespace WebApplication1.Pages.Recepetion
 
         [BindProperty]
         public Reservations Reservations { get; set; } = default!;
-        
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Reservations == null || Reservations == null)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             _context.Reservations.Add(Reservations);
             await _context.SaveChangesAsync();
+
+            await _hubContext.Clients.All.Update();
 
             return RedirectToPage("./Index");
         }

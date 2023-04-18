@@ -5,7 +5,6 @@ namespace WebApplication1.Data
 {
     public class SeedData
     {
-
         public static void SeedUsers(UserManager<IdentityUser> userManager)
         {
             // User information
@@ -16,7 +15,6 @@ namespace WebApplication1.Data
             const string customerEmail = "Customer@localhost";
             const string customerPassword = "Secret7$";
 
-
             // Overordnet tjek af userManager
             if (userManager == null)
                 throw new ArgumentNullException(nameof(userManager));
@@ -24,19 +22,21 @@ namespace WebApplication1.Data
             // Receptionist seed
             if (userManager.FindByNameAsync(receptionistEmail).Result == null)
             {
-                var user = new IdentityUser();
-                user.UserName = receptionistEmail;
-                user.Email = receptionistEmail;
-                user.EmailConfirmed = true;
-                IdentityResult result = userManager.CreateAsync(user, receptionistPassword).Result;
+                var user = new IdentityUser
+                {
+                    UserName = receptionistEmail,
+                    Email = receptionistEmail,
+                    EmailConfirmed = true
+                };
+                var result = userManager.CreateAsync(user, receptionistPassword).Result;
 
                 if (result.Succeeded)
                 {
                     var receptionistUser = userManager.FindByNameAsync(receptionistEmail).Result;
                     var claims = new List<Claim>()
                     {
-                        new Claim("IsReceptionist", "true"),
-                        new Claim("IsWorker", "true"),
+                        new("IsReceptionist", "true"),
+                        new("IsWorker", "true"),
                     };
                     var claimAdded = userManager.AddClaimsAsync(receptionistUser, claims).Result;
                 }
@@ -67,21 +67,14 @@ namespace WebApplication1.Data
             // Customer seed
             if (userManager.FindByNameAsync(customerEmail).Result == null)
             {
-                var user = new IdentityUser();
-                user.UserName = customerEmail;
-                user.Email = customerEmail;
-                user.EmailConfirmed = true;
-                IdentityResult result = userManager.CreateAsync(user, customerPassword).Result;
+                var user = new IdentityUser
+                {
+                    UserName = customerEmail,
+                    Email = customerEmail,
+                    EmailConfirmed = true
+                };
+                var result = userManager.CreateAsync(user, customerPassword).Result;
             }
-
-
         }
-
-
-
-
-
-
-
     }
 }

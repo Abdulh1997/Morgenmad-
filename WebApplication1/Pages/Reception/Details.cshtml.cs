@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Model;
 
-namespace WebApplication1.Pages.Recepetion
+namespace WebApplication1.Pages.Reception
 {
     public class DetailsModel : PageModel
     {

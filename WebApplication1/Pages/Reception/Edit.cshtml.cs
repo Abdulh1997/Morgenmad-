@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
+using WebApplication1.Hubs;
 using WebApplication1.Model;
 
-namespace WebApplication1.Pages.Recepetion
+namespace WebApplication1.Pages.Reception
 {
     public class EditModel : PageModel
     {
         private readonly WebApplication1.Data.ApplicationDbContext _context;
+        private readonly IHubContext<NotificationHub, INotificationHub> _hubContext;
 
-        public EditModel(WebApplication1.Data.ApplicationDbContext context)
+
+        public EditModel(WebApplication1.Data.ApplicationDbContext context, IHubContext<NotificationHub, INotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [BindProperty]
@@ -53,6 +52,7 @@ namespace WebApplication1.Pages.Recepetion
             try
             {
                 await _context.SaveChangesAsync();
+                await _hubContext.Clients.All.Update();
             }
             catch (DbUpdateConcurrencyException)
             {

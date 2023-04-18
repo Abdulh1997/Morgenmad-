@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using WebApplication1.Data;
+using WebApplication1.Hubs;
 using WebApplication1.Model;
 
 namespace WebApplication1.Pages.Restaurant
 {
     public class CreateModel : PageModel
     {
-        private readonly WebApplication1.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
+        private readonly IHubContext<NotificationHub, INotificationHub> _hubContext;
 
-        public CreateModel(WebApplication1.Data.ApplicationDbContext context)
+
+        public CreateModel(ApplicationDbContext context, IHubContext<NotificationHub, INotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         public IActionResult OnGet()
@@ -26,18 +26,18 @@ namespace WebApplication1.Pages.Restaurant
 
         [BindProperty]
         public CheckedIn CheckedIn { get; set; } = default!;
-        
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.CheckedIn == null || CheckedIn == null)
+            if (!ModelState.IsValid || _context.CheckedIn == null || CheckedIn == null)
             {
                 return Page();
             }
 
             _context.CheckedIn.Add(CheckedIn);
             await _context.SaveChangesAsync();
+
+            await _hubContext.Clients.All.Update();
 
             return RedirectToPage("./Index");
         }
